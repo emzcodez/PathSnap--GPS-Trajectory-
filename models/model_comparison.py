@@ -118,3 +118,4 @@ def run_five_model_comparison(data_dir: str = "results"):
 
 if __name__ == "__main__":
     run_five_model_comparison()
+
