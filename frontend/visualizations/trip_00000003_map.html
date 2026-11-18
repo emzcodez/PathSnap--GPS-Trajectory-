@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PathSnap - Trip 00000003 Visualization</title>
+    <link rel="stylesheet" href="https://unpkg.com/folium@0.15.1/dist/folium.css">
+</head>
+<body>
+    <div id="map">PathSnap: Distributed Map-Matching & Route Reconstruction</div>
+    <script src="https://unpkg.com/folium@0.15.1/dist/folium.js"></script>
+<script>
+        // Initialize map - will be populated with actual data
+        var map = L.map('map').setView([0, 0], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/z/x/y.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+    </script>
+</body>
+</html>
