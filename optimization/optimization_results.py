@@ -78,3 +78,4 @@ class OptimizationExperimentReport:
             md += f"| {t.get('trial_id')} | `{param_str}` | {t.get('score', 0.0):.4f} | {t.get('duration_seconds', 0.0):.2f}s |\n"
 
         return md
+

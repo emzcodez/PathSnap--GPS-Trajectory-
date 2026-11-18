@@ -1,6 +1,6 @@
 # PathSnap First-Phase Sprint Report: Sequential Modelling (Prateek)
 
-**Date & Time:** 2026-11-18 10:23:33  
+**Date & Time:** 2026-11-18 10:45:25  
 **Sprint Period:** 10:00 AM – 11:40 AM Checkpoint  
 **Owner:** Prateek (Sequential Modelling: HMM, Viterbi & Optimisation)  
 **Status:** COMPLETE & READY FOR PHASE 1 EVALUATION  
@@ -32,7 +32,7 @@ In accordance with the team implementation strategy and hackathon requirements:
 | **Strict 1-Hop Continuity** | 63.77% | 90.11% | +26.34% |
 | **Invalid Disconnected Transitions** | **356** | **100** | **256 invalid jumps eliminated** |
 | **Traversed Segments Count** | 831 | 700 | Cleaner trajectory |
-| **Execution Latency** | 2.99 ms | 197.98 ms | Production real-time performance |
+| **Execution Latency** | 3.12 ms | 183.44 ms | Production real-time performance |
 
 ### Reference Route Overlap
 | Metric | Standalone Classifier | Sequential HMM / Viterbi |
@@ -43,7 +43,22 @@ In accordance with the team implementation strategy and hackathon requirements:
 
 ---
 
-## 3. Bayesian Optimization Readiness
+## 3. Real Model Probability Integration (Prema's Baseline on Trip `00000000`)
+
+Demonstrates end-to-end integration with the actual candidate classifier outputs trained by Prema:
+
+| Metric | Standalone Classifier | Sequential HMM / Viterbi Decoder | Relative Impact |
+|---|---|---|---|
+| **Relaxed Route Continuity** | **97.36%** | **99.48%** | **+2.12%** |
+| **Strict 1-Hop Continuity** | 93.80% | 99.04% | +5.24% |
+| **Invalid Transitions Eliminated** | 66 | 13 | **53 invalid jumps eliminated** |
+| **Reference Route Precision** | 60.14% | **75.34%** | +15.20% |
+| **Reference Route Recall** | 92.74% | **93.85%** | +1.11% |
+| **Reference Route Macro F1** | **72.97%** | **83.58%** | **+10.61%** |
+
+---
+
+## 4. Bayesian Optimization Readiness
 
 - **Framework:** Optuna TPE (Tree-structured Parzen Estimator) sampler with GroupKFold cross-validation across trips.
 - **Search Spaces Defined:** 
