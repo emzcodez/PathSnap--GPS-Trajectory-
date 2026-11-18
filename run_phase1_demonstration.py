@@ -178,26 +178,22 @@ def generate_trip_candidates(track_df, nodes_df, arcs_df, max_cands=10, search_r
     return candidates
 
 
-def find_trip_dir(trip_id="00000001", partition="train"):
+def find_trip_dir(trip_id="00000001"):
     candidates = [
-        f"Student_folder/Student folder/{partition}/{trip_id}",
-        f"../Student_folder/Student folder/{partition}/{trip_id}",
-        f"Student folder/{partition}/{trip_id}",
-        f"../Student folder/{partition}/{trip_id}",
+        f"Student_folder/Student folder/train/{trip_id}",
+        f"../Student_folder/Student folder/train/{trip_id}",
+        f"Student folder/train/{trip_id}",
+        f"../Student folder/train/{trip_id}",
     ]
     for p in candidates:
         if os.path.exists(p):
             return p
-    return f"../Student_folder/Student folder/{partition}/{trip_id}"
+    return f"Student_folder/Student folder/train/{trip_id}"
 
 
 def run_demonstration():
     trip_id = "00000001"
     base_dir = find_trip_dir(trip_id)
-    results_dir = os.path.join(current_dir, "results")
-    artifacts_dir = os.path.join(current_dir, "artifacts")
-    os.makedirs(results_dir, exist_ok=True)
-    os.makedirs(artifacts_dir, exist_ok=True)
 
     print(f"=== PathSnap First-Phase Sprint: Sequential Modelling Demonstration ===")
     print(f"Target Trip: {trip_id}")
@@ -249,55 +245,7 @@ def run_demonstration():
         print(f"Classifier F1: {clf_ref['arc_set_f1'] * 100:.2f}% (Precision: {clf_ref['arc_set_precision'] * 100:.2f}%, Recall: {clf_ref['arc_set_recall'] * 100:.2f}%)")
         print(f"HMM/Viterbi F1: {hmm_ref['arc_set_f1'] * 100:.2f}% (Precision: {hmm_ref['arc_set_precision'] * 100:.2f}%, Recall: {hmm_ref['arc_set_recall'] * 100:.2f}%)")
 
-    # 5. Evaluate on Prema's Trained Model Candidates (Student Test Trip 00000000)
-    prema_csv_path = os.path.join(results_dir, "phase1_student_test_candidates_scored.csv")
-    prema_results = None
-    if os.path.exists(prema_csv_path):
-        print("\n--- Connecting to Prema's Real Model Probabilities (Trip 00000000) ---")
-        try:
-            df_scored = pd.read_csv(prema_csv_path)
-            trip0_df = df_scored[df_scored["trip_id"].astype(str).isin(["0", "00000000"])].sort_values(
-                ["observation_index", "candidate_rank"]
-            )
-            if not trip0_df.empty:
-                trip0_dir = find_trip_dir("00000000", partition="student_test")
-
-                t0_track = pd.read_csv(f"{trip0_dir}/00000000.track", sep=r"\s+", header=None, names=["lon", "lat", "timestamp"])
-                t0_nodes = pd.read_csv(f"{trip0_dir}/00000000.nodes", sep=r"\s+", header=None, names=["lon", "lat"])
-                t0_arcs = pd.read_csv(f"{trip0_dir}/00000000.arcs", sep=r"\s+", header=None, names=["from_node", "to_node"])
-                t0_arcs["arc_id"] = t0_arcs.index
-                t0_route_path = f"{trip0_dir}/00000000.route"
-                t0_route = pd.read_csv(t0_route_path, header=None, names=["arc_id"])["arc_id"].tolist() if os.path.exists(t0_route_path) else None
-
-                t0_graph = RoadGraph(t0_arcs, t0_nodes)
-                t0_cands = []
-                for obs_i, grp in trip0_df.groupby("observation_index"):
-                    t0_cands.append({
-                        "observation_index": int(obs_i),
-                        "candidate_arc_ids": [int(a) for a in grp["candidate_arc_id"]],
-                        "probabilities": [float(p) for p in grp["predicted_score"]]
-                    })
-
-                comp_prema = compare_classifier_vs_hmm(
-                    candidates=t0_cands,
-                    arcs=t0_graph,
-                    timestamps=t0_track["timestamp"].iloc[:len(t0_cands)],
-                    reference_route=t0_route,
-                    graph=t0_graph
-                )
-                prema_results = comp_prema
-                print(f"Evaluated {len(t0_cands)} observations from Prema's ML predictions.")
-                print(f"Classifier-Only Continuity: {comp_prema['classifier_only']['pointwise_relaxed_continuity'] * 100:.2f}%")
-                print(f"HMM/Viterbi Continuity: {comp_prema['classifier_plus_hmm']['pointwise_relaxed_continuity'] * 100:.2f}%")
-                print(f"Invalid Transitions Eliminated: {comp_prema['improvements']['invalid_transitions_eliminated']}")
-                if "reference_route_metrics" in comp_prema:
-                    c_f1 = comp_prema["reference_route_metrics"]["classifier_only"]["arc_set_f1"]
-                    h_f1 = comp_prema["reference_route_metrics"]["classifier_plus_hmm"]["arc_set_f1"]
-                    print(f"Reference F1: Classifier {c_f1 * 100:.2f}% -> HMM {h_f1 * 100:.2f}% (+{(h_f1 - c_f1) * 100:.2f}%)")
-        except Exception as e:
-            print(f"Note: Error evaluating Prema's model candidates: {e}")
-
-    # 6. Run Bayesian Optimization Demonstration (Subsample for fast first-phase verification)
+    # 5. Run Bayesian Optimization Demonstration (Subsample for fast first-phase verification)
     print("\n--- Running Bayesian Optimization Framework Demonstration ---")
     subsample_len = 100
     sub_cands = candidates[:subsample_len]
@@ -316,13 +264,12 @@ def run_demonstration():
     print(f"Best Trial: #{opt_results['best_trial_number']} with Score: {opt_results['best_value']}")
     print(f"Best Parameters: {json.dumps(opt_results['best_params'], indent=2)}")
 
-    # 7. Save Evidence Outputs
+    # 6. Save Evidence Outputs
     evidence_payload = {
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "trip_id": trip_id,
         "observations_count": len(track_df),
         "comparison_metrics": comparison,
-        "prema_connected_model_metrics": prema_results,
         "optimization_demo": {
             "total_trials": opt_results["total_trials"],
             "best_params": opt_results["best_params"],
@@ -397,35 +344,10 @@ In accordance with the team implementation strategy and hackathon requirements:
 | **Arc Set Macro F1** | {clf_ref['arc_set_f1'] * 100:.2f}% | **{hmm_ref['arc_set_f1'] * 100:.2f}%** |
 """
 
-    if prema_results is not None:
-        p_clf = prema_results["classifier_only"]
-        p_hmm = prema_results["classifier_plus_hmm"]
-        p_imp = prema_results["improvements"]
-        report_md += f"""
----
-
-## 3. Real Model Probability Integration (Prema's Baseline on Trip `00000000`)
-
-Demonstrates end-to-end integration with the actual candidate classifier outputs trained by Prema:
-
-| Metric | Standalone Classifier | Sequential HMM / Viterbi Decoder | Relative Impact |
-|---|---|---|---|
-| **Relaxed Route Continuity** | **{p_clf['pointwise_relaxed_continuity'] * 100:.2f}%** | **{p_hmm['pointwise_relaxed_continuity'] * 100:.2f}%** | **+{p_imp['continuity_gain'] * 100:.2f}%** |
-| **Strict 1-Hop Continuity** | {p_clf['pointwise_strict_continuity'] * 100:.2f}% | {p_hmm['pointwise_strict_continuity'] * 100:.2f}% | +{(p_hmm['pointwise_strict_continuity'] - p_clf['pointwise_strict_continuity']) * 100:.2f}% |
-| **Invalid Transitions Eliminated** | {p_clf['pointwise_invalid_transitions']} | {p_hmm['pointwise_invalid_transitions']} | **{p_imp['invalid_transitions_eliminated']} invalid jumps eliminated** |
-"""
-        if "reference_route_metrics" in prema_results:
-            p_ref_c = prema_results["reference_route_metrics"]["classifier_only"]
-            p_ref_h = prema_results["reference_route_metrics"]["classifier_plus_hmm"]
-            report_md += f"""| **Reference Route Precision** | {p_ref_c['arc_set_precision'] * 100:.2f}% | **{p_ref_h['arc_set_precision'] * 100:.2f}%** | +{(p_ref_h['arc_set_precision'] - p_ref_c['arc_set_precision']) * 100:.2f}% |
-| **Reference Route Recall** | {p_ref_c['arc_set_recall'] * 100:.2f}% | **{p_ref_h['arc_set_recall'] * 100:.2f}%** | +{(p_ref_h['arc_set_recall'] - p_ref_c['arc_set_recall']) * 100:.2f}% |
-| **Reference Route Macro F1** | **{p_ref_c['arc_set_f1'] * 100:.2f}%** | **{p_ref_h['arc_set_f1'] * 100:.2f}%** | **+{(p_ref_h['arc_set_f1'] - p_ref_c['arc_set_f1']) * 100:.2f}%** |
-"""
-
     report_md += f"""
 ---
 
-## 4. Bayesian Optimization Readiness
+## 3. Bayesian Optimization Readiness
 
 - **Framework:** Optuna TPE (Tree-structured Parzen Estimator) sampler with GroupKFold cross-validation across trips.
 - **Search Spaces Defined:** 

@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-11-18T10:45:25",
+  "timestamp": "2026-11-18T10:23:33",
   "trip_id": "00000001",
   "observations_count": 1315,
   "comparison_metrics": {
     "classifier_only": {
-      "execution_time_ms": 3.12,
+      "execution_time_ms": 2.99,
       "pointwise_strict_continuity": 0.6377,
       "pointwise_relaxed_continuity": 0.7291,
       "pointwise_invalid_transitions": 356,
@@ -12,7 +12,7 @@
       "traversed_relaxed_continuity": 0.5711
     },
     "classifier_plus_hmm": {
-      "execution_time_ms": 183.44,
+      "execution_time_ms": 197.98,
       "pointwise_strict_continuity": 0.9011,
       "pointwise_relaxed_continuity": 0.9239,
       "pointwise_invalid_transitions": 100,
@@ -35,42 +35,6 @@
         "arc_set_precision": 0.679,
         "arc_set_recall": 0.8705,
         "arc_set_f1": 0.7629
-      }
-    }
-  },
-  "prema_connected_model_metrics": {
-    "classifier_only": {
-      "execution_time_ms": 5.19,
-      "pointwise_strict_continuity": 0.938,
-      "pointwise_relaxed_continuity": 0.9736,
-      "pointwise_invalid_transitions": 66,
-      "traversed_segments_count": 418,
-      "traversed_relaxed_continuity": 0.8417
-    },
-    "classifier_plus_hmm": {
-      "execution_time_ms": 117.38,
-      "pointwise_strict_continuity": 0.9904,
-      "pointwise_relaxed_continuity": 0.9948,
-      "pointwise_invalid_transitions": 13,
-      "traversed_segments_count": 251,
-      "traversed_relaxed_continuity": 0.948,
-      "best_path_log_likelihood": -2841.495735358545
-    },
-    "improvements": {
-      "continuity_gain": 0.0212,
-      "invalid_transitions_eliminated": 53
-    },
-    "reference_route_metrics": {
-      "reference_route_length": 179,
-      "classifier_only": {
-        "arc_set_precision": 0.6014,
-        "arc_set_recall": 0.9274,
-        "arc_set_f1": 0.7297
-      },
-      "classifier_plus_hmm": {
-        "arc_set_precision": 0.7534,
-        "arc_set_recall": 0.9385,
-        "arc_set_f1": 0.8358
       }
     }
   },

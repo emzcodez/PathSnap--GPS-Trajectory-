@@ -124,4 +124,3 @@ def run_decoder_hyperparameter_search(
     result = optimizer.optimize(objective, n_trials=n_trials)
     result["study_report"] = optimizer.get_summary_report()
     return result
-
