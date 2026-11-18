@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-11-18T10:23:33",
+  "trip_id": "00000001",
+  "observations_count": 1315,
+  "comparison_metrics": {
+    "classifier_only": {
+      "execution_time_ms": 2.99,
+      "pointwise_strict_continuity": 0.6377,
+      "pointwise_relaxed_continuity": 0.7291,
+      "pointwise_invalid_transitions": 356,
+      "traversed_segments_count": 831,
+      "traversed_relaxed_continuity": 0.5711
+    },
+    "classifier_plus_hmm": {
+      "execution_time_ms": 197.98,
+      "pointwise_strict_continuity": 0.9011,
+      "pointwise_relaxed_continuity": 0.9239,
+      "pointwise_invalid_transitions": 100,
+      "traversed_segments_count": 700,
+      "traversed_relaxed_continuity": 0.8569,
+      "best_path_log_likelihood": -4216.799569392731
+    },
+    "improvements": {
+      "continuity_gain": 0.1948,
+      "invalid_transitions_eliminated": 256
+    },
+    "reference_route_metrics": {
+      "reference_route_length": 525,
+      "classifier_only": {
+        "arc_set_precision": 0.5556,
+        "arc_set_recall": 0.781,
+        "arc_set_f1": 0.6492
+      },
+      "classifier_plus_hmm": {
+        "arc_set_precision": 0.679,
+        "arc_set_recall": 0.8705,
+        "arc_set_f1": 0.7629
+      }
+    }
+  },
+  "optimization_demo": {
+    "total_trials": 8,
+    "best_params": {
+      "p_stay": 0.55,
+      "p_direct": 0.2,
+      "hop_decay": 0.05,
+      "p_invalid": 0.0007025166339242157,
+      "gap_threshold_s": 15.0,
+      "max_hops": 4
+    },
+    "best_value": 0.7912,
+    "total_compute_time_seconds": 0.04
+  }
+}
