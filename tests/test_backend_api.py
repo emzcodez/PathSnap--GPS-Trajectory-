@@ -60,3 +60,4 @@ def test_predict_route_schema():
     assert "metrics" in data
     assert "processing_time_ms" in data
     assert data["metrics"]["relaxed_route_continuity"] > 0.0
+

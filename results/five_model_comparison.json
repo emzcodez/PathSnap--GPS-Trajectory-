@@ -1,0 +1,62 @@
+[
+  {
+    "model_name": "Logistic Regression",
+    "algorithm_family": "Linear & Probabilistic",
+    "accuracy": 0.9382,
+    "precision": 0.9227,
+    "recall": 0.7497,
+    "f1_score": 0.8272,
+    "log_loss": 0.1965,
+    "top1_accuracy": 0.8888,
+    "train_time_s": 0.35,
+    "infer_time_ms": 1.78
+  },
+  {
+    "model_name": "Gaussian Naive Bayes",
+    "algorithm_family": "Probabilistic / Generative",
+    "accuracy": 0.789,
+    "precision": 0.4781,
+    "recall": 0.7576,
+    "f1_score": 0.5862,
+    "log_loss": 1.9393,
+    "top1_accuracy": 0.7127,
+    "train_time_s": 0.01,
+    "infer_time_ms": 2.85
+  },
+  {
+    "model_name": "Decision Tree",
+    "algorithm_family": "Tree-based",
+    "accuracy": 0.9486,
+    "precision": 0.8643,
+    "recall": 0.8771,
+    "f1_score": 0.8706,
+    "log_loss": 0.2444,
+    "top1_accuracy": 0.8577,
+    "train_time_s": 0.26,
+    "infer_time_ms": 1.73
+  },
+  {
+    "model_name": "Random Forest (Baseline)",
+    "algorithm_family": "Ensemble (Bagging)",
+    "accuracy": 0.9642,
+    "precision": 0.9235,
+    "recall": 0.8925,
+    "f1_score": 0.9077,
+    "log_loss": 0.1234,
+    "top1_accuracy": 0.8963,
+    "train_time_s": 0.87,
+    "infer_time_ms": 27.51
+  },
+  {
+    "model_name": "HistGradientBoosting",
+    "algorithm_family": "Boosting",
+    "accuracy": 0.9635,
+    "precision": 0.9139,
+    "recall": 0.8999,
+    "f1_score": 0.9068,
+    "log_loss": 0.1045,
+    "top1_accuracy": 0.8955,
+    "train_time_s": 0.33,
+    "infer_time_ms": 12.35
+  }
+]

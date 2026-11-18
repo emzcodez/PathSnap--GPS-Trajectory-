@@ -77,3 +77,4 @@ class ServerSideEvaluator:
             "arc_recall": round(recall, 4),
             "macro_f1": round(f1, 4),
         }
+
