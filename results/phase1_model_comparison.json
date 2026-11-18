@@ -1,0 +1,67 @@
+[
+  {
+    "model": "Logistic Regression",
+    "candidate_rows": 19131,
+    "observations": 3857,
+    "candidate_accuracy": 0.820500757932152,
+    "candidate_precision": 0.5242981331053157,
+    "candidate_recall": 0.974569536423841,
+    "candidate_f1": 0.6818013343217197,
+    "candidate_log_loss": 0.35174318471293387,
+    "observation_top1_accuracy": 0.8747731397459165,
+    "training_time_s": 0.3290084999998726,
+    "inference_time_s": 0.0027630999993562
+  },
+  {
+    "model": "Decision Tree",
+    "candidate_rows": 19131,
+    "observations": 3857,
+    "candidate_accuracy": 0.91385709058596,
+    "candidate_precision": 0.7152398299939283,
+    "candidate_recall": 0.936158940397351,
+    "candidate_f1": 0.8109224414869206,
+    "candidate_log_loss": 0.36656072087413727,
+    "observation_top1_accuracy": 0.8628467721026705,
+    "training_time_s": 0.44106060000012803,
+    "inference_time_s": 0.0019250999994255835
+  },
+  {
+    "model": "Random Forest",
+    "candidate_rows": 19131,
+    "observations": 3857,
+    "candidate_accuracy": 0.9198682766190999,
+    "candidate_precision": 0.7239312824610468,
+    "candidate_recall": 0.96,
+    "candidate_f1": 0.8254185172531602,
+    "candidate_log_loss": 0.173654508893877,
+    "observation_top1_accuracy": 0.8955146486906922,
+    "training_time_s": 3.428913300000204,
+    "inference_time_s": 0.06515639999997802
+  },
+  {
+    "model": "Extra Trees",
+    "candidate_rows": 19131,
+    "observations": 3857,
+    "candidate_accuracy": 0.9075845486383357,
+    "candidate_precision": 0.6916173381707085,
+    "candidate_recall": 0.9594701986754967,
+    "candidate_f1": 0.8038171327119397,
+    "candidate_log_loss": 0.22046452463135,
+    "observation_top1_accuracy": 0.8996629504796474,
+    "training_time_s": 1.2200310000007448,
+    "inference_time_s": 0.05799170000045706
+  },
+  {
+    "model": "Hist Gradient Boosting",
+    "candidate_rows": 19131,
+    "observations": 3857,
+    "candidate_accuracy": 0.9207568867283467,
+    "candidate_precision": 0.7236190853296377,
+    "candidate_recall": 0.9682119205298013,
+    "candidate_f1": 0.8282347609336053,
+    "candidate_log_loss": 0.1647989396282364,
+    "observation_top1_accuracy": 0.8960331864143116,
+    "training_time_s": 2.0802898999991157,
+    "inference_time_s": 0.032204400000409805
+  }
+]
